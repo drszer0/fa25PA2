@@ -72,7 +72,8 @@ void buildFrequencyTable(int freq[], const string& filename) {
     cout << "Frequency table built successfully.\n";
 }
 
-// Step 2: Create leaf nodes for each character *correction each unique character
+// Step 2: Create leaf nodes for each character
+// *correction each unique lowercase character
 int createLeafNodes(int freq[]) {
     int nextFree = 0;
     for (int i = 0; i < 26; ++i) {
@@ -98,14 +99,21 @@ int buildEncodingTree(int nextFree) {
     {
         heap.push(i, weightArr);
     }
-
+    if (heap.size <= 0) // size should never dip bellow 0 but just in case.
+    {
+        return -1;
+    }
+    if (heap.size == 1)
+    {
+        return 0;
+    }
 
         //    - Pop two smallest nodes
 
     // if we pop before the loop starts then no other nodes will be popped and that will be an issue when building the tree.
 
     // 3. While the heap size is greater than 1:
-    int pos = 0;
+
     while (heap.size > 1 ) {
         int left = heap.pop(weightArr);
         int right = heap.pop(weightArr);
@@ -117,23 +125,34 @@ int buildEncodingTree(int nextFree) {
         leftArr[nextFree] = left;
         rightArr[nextFree] = right;
         charArr[nextFree] = '#';
-        nextFree++;
+
 
         //    - Push new parent index back into the heap
         heap.push(nextFree, weightArr);
+        nextFree++;
 
     }
     // the instructions above just provide what is expected from heap.h
     // 4. Return the index of the last remaining node (root)
-    return nextFree; // placeholder
-    // return -1;
+    return heap.pop(weightArr); // placeholder
+    // return -
 }
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
     // TODO:
+    if (root == 0)
+    {
+        codes[0] = "0";
+        return;
+    }
     // Use stack<pair<int, string>> to simulate DFS traversal.
     stack<pair<int, string>> stack;
+    for (int i = 0; i < 26; i++)
+    {
+        stack.emplace(root,"hi");
+    }
+    stack.top();
     // Left edge adds '0', right edge adds '1'.
 
 
