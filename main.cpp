@@ -134,6 +134,7 @@ int buildEncodingTree(int nextFree) {
     }
     // the instructions above just provide what is expected from heap.h
     // 4. Return the index of the last remaining node (root)
+    cout << "Built encoding tree()\n";
     return heap.pop(weightArr); // placeholder
     // return -
 }
@@ -141,18 +142,34 @@ int buildEncodingTree(int nextFree) {
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
     // TODO:
-    if (root == 0)
+
+    if (leftArr[root] == -1 && rightArr[root] == -1)
     {
-        codes[0] = "0";
-        return;
+        codes[charArr[root] - 'a'] = "0";
     }
     // Use stack<pair<int, string>> to simulate DFS traversal.
     stack<pair<int, string>> stack;
-    for (int i = 0; i < 26; i++)
+    stack.push({root, ""});
+
+    while (!stack.empty())
     {
-        stack.emplace(root,"hi");
+        pair<int, string > item = stack.top();
+        int node = item.first;
+        string code = item.second;
+        stack.pop();
+
+        if (leftArr[node] == -1 && rightArr[node] == -1) {
+            if (charArr[node] >= 'a' && charArr[node] <= 'z')
+                codes[charArr[node] - 'a'] = code.empty() ? "0" : code;
+            continue;
+        }
+        if (leftArr[node] != -1) {stack.push({leftArr[node], code + '0'});}
+        if (rightArr[node] != -1) {stack.push({rightArr[node], code + '1'});}
     }
-    stack.top();
+
+
+
+
     // Left edge adds '0', right edge adds '1'.
 
 
