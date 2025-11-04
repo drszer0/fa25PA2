@@ -95,7 +95,7 @@ int buildEncodingTree(int nextFree) {
     // 1. Create a MinHeap object. done
     MinHeap heap;
     // 2. Push all leaf node indices into the heap. done
-    for (int i = 0; i < nextFree; i++)
+    for (int i = 0; i < nextFree; i++) // pushes all leaf nodes into the stack.
     {
         heap.push(i, weightArr);
     }
@@ -103,9 +103,9 @@ int buildEncodingTree(int nextFree) {
     {
         return -1;
     }
-    if (heap.size == 1) // returns the index of the zeroth node "return heap.pop(weightArr);" will work too
+    if (heap.size == 1) //
     {
-        return 0;
+        return heap.pop(weightArr); //
     }
 
         //    - Pop two smallest nodes
@@ -144,6 +144,7 @@ void generateCodes(int root, string codes[]) {
     if (leftArr[root] == -1 && rightArr[root] == -1)
     {
         codes[charArr[root] - 'a'] = "0";
+        return;
     }
     // Use stack<pair<int, string>> to simulate DFS traversal.
     stack<pair<int, string>> stack;
