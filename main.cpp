@@ -99,18 +99,16 @@ int buildEncodingTree(int nextFree) {
     {
         heap.push(i, weightArr);
     }
-    if (heap.size <= 0) // size should never dip bellow 0 but just in case.
+    if (heap.size <= 0) // size should never dip below 0 but just in case.
     {
         return -1;
     }
-    if (heap.size == 1)
+    if (heap.size == 1) // returns the index of the zeroth node "return heap.pop(weightArr);" will work too
     {
         return 0;
     }
 
         //    - Pop two smallest nodes
-
-    // if we pop before the loop starts then no other nodes will be popped and that will be an issue when building the tree.
 
     // 3. While the heap size is greater than 1:
 
@@ -159,12 +157,11 @@ void generateCodes(int root, string codes[]) {
         stack.pop();
 
         if (leftArr[node] == -1 && rightArr[node] == -1) {
-            if (charArr[node] >= 'a' && charArr[node] <= 'z')
-                codes[charArr[node] - 'a'] = code.empty() ? "0" : code;
-            continue;
+            codes[charArr[node] - 'a'] = code;
         }
+        if (rightArr[node] != -1) {stack.push({rightArr[node], code + '1'});} // had to move
         if (leftArr[node] != -1) {stack.push({leftArr[node], code + '0'});}
-        if (rightArr[node] != -1) {stack.push({rightArr[node], code + '1'});}
+
     }
 
 
@@ -197,6 +194,7 @@ void encodeMessage(const string& filename, string codes[])
             ch = ch - 'A' + 'a';
         if (ch >= 'a' && ch <= 'z')
             cout << codes[ch - 'a'];
+        if (ch == ' ') {cout << ' ';} // gotta space out my words.
     }
     cout << "\n";
     file.close();
